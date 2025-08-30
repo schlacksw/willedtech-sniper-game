@@ -1,0 +1,395 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #000;
+    font-family: 'Arial', sans-serif;
+    overflow: hidden;
+    cursor: none;
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+
+#gameContainer {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+#loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #00ff00;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    z-index: 1000;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+#hud {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-family: Arial, sans-serif;
+}
+
+#hud > div {
+    background: rgba(20, 25, 30, 0.85);
+    color: #e8e8e8;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-weight: normal;
+    font-size: 13px;
+    border: 1px solid #555;
+    backdrop-filter: blur(3px);
+    transition: all 0.2s ease;
+    min-width: 120px;
+}
+
+#hud > div:hover {
+    background: rgba(30, 35, 40, 0.9);
+    border-color: #777;
+}
+
+/* Simple Sniper Scope Overlay */
+#crosshair {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: 300px;
+    height: 300px;
+    pointer-events: none;
+    z-index: 200;
+    transform: translate(-50%, -50%);
+    border: 3px solid #000;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.8);
+    box-shadow: 0 0 0 2000px rgba(0, 0, 0, 0.9);
+}
+
+#crosshair::before,
+#crosshair::after {
+    content: '';
+    position: absolute;
+    background: #ff0000;
+    box-shadow: 0 0 5px rgba(255, 0, 0, 0.8);
+}
+
+#crosshair::before {
+    width: 1px;
+    height: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+#crosshair::after {
+    width: 100%;
+    height: 1px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Scope circles */
+#crosshair {
+    background: radial-gradient(
+        circle at center,
+        transparent 47%,
+        #000 48%,
+        #000 49%,
+        transparent 50%,
+        transparent 74%,
+        #000 75%,
+        #000 76%,
+        transparent 77%,
+        transparent 97%,
+        #000 98%,
+        #000 99%,
+        transparent 100%
+    );
+}
+
+/* Scope ammo display - only visible when zoomed */
+#scopeAmmo {
+    position: fixed;
+    right: 25px;
+    top: 45%;
+    transform: translateY(-50%);
+    background: rgba(20, 25, 30, 0.9);
+    color: #d4d4d4;
+    padding: 12px 18px;
+    border-radius: 6px;
+    font-family: Arial, sans-serif;
+    font-weight: normal;
+    font-size: 16px;
+    border: 1px solid #666;
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    display: none;
+    letter-spacing: 1px;
+}
+
+
+/* Health Bar Styling */
+#health {
+    background: rgba(20, 25, 30, 0.85) !important;
+    border: 1px solid #555 !important;
+}
+
+.health-label {
+    color: #e8e8e8;
+    font-size: 11px;
+    margin-bottom: 3px;
+    letter-spacing: 0.5px;
+}
+
+.health-bar-container {
+    position: relative;
+    width: 140px;
+    height: 14px;
+    background: rgba(40, 40, 40, 0.6);
+    border: 1px solid #888;
+    border-radius: 7px;
+    overflow: hidden;
+    margin-top: 3px;
+}
+
+.health-bar {
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(90deg, #ff0000, #ff4444, #ff6666);
+    border-radius: 10px;
+    transition: width 0.5s ease;
+    box-shadow: 0 0 10px rgba(255, 68, 68, 0.6);
+    position: relative;
+}
+
+
+.health-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 10px;
+    font-weight: normal;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.8);
+    z-index: 10;
+}
+
+/* Hip-fire crosshair (when not zoomed) - shows bullet spread */
+#hipCrosshair {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: 120px;
+    height: 120px;
+    pointer-events: none;
+    z-index: 150;
+    transform: translate(-50%, -50%);
+    display: block;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+}
+
+#hipCrosshair::before,
+#hipCrosshair::after {
+    content: '';
+    position: absolute;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 1px;
+}
+
+#hipCrosshair::before {
+    width: 2px;
+    height: 30px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#hipCrosshair::after {
+    width: 30px;
+    height: 2px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#gameOver {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 40px;
+    border-radius: 15px;
+    text-align: center;
+    border: 3px solid #e74c3c;
+    z-index: 300;
+}
+
+#gameOver h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    color: #e74c3c;
+}
+
+#gameOver p {
+    font-size: 20px;
+    margin-bottom: 25px;
+}
+
+#restartBtn {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#restartBtn:hover {
+    background: #2980b9;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Cooldown indicator */
+.cooldown-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 0, 0, 0.1);
+    z-index: 50;
+    pointer-events: none;
+    animation: cooldownFlash 0.3s ease-out;
+}
+
+@keyframes cooldownFlash {
+    0% { opacity: 0.3; }
+    100% { opacity: 0; }
+}
+
+/* Bad Guy Targets */
+.target {
+    position: absolute;
+    width: 40px;
+    height: 60px;
+    cursor: crosshair;
+    transition: all 0.1s ease;
+    animation: targetMovement 3s linear infinite alternate;
+}
+
+/* Bad guy body */
+.target::before {
+    content: '';
+    position: absolute;
+    width: 25px;
+    height: 35px;
+    background: #2c3e50;
+    border-radius: 5px 5px 0 0;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 2px solid #34495e;
+}
+
+/* Bad guy head */
+.target::after {
+    content: '';
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    background: #f4c2a1;
+    border-radius: 50%;
+    top: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 2px solid #d35400;
+    box-shadow: 0 0 5px rgba(231, 76, 60, 0.6);
+}
+
+/* Add weapon to bad guy */
+.target {
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 60"><rect x="15" y="20" width="3" height="15" fill="%23654321"/><rect x="17" y="18" width="8" height="3" fill="%23333"/></svg>') no-repeat center center;
+}
+
+@keyframes targetMovement {
+    0% { transform: translateX(0px); }
+    50% { transform: translateX(20px); }
+    100% { transform: translateX(-20px); }
+}
+
+.target:hover {
+    transform: scale(1.1);
+}
+
+.hit-animation {
+    animation: hitEffect 0.3s ease-out;
+}
+
+@keyframes hitEffect {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); opacity: 0.7; }
+    100% { transform: scale(0); opacity: 0; }
+}
+
+@keyframes fadeUp {
+    0% { 
+        opacity: 1; 
+        transform: translateY(0px); 
+    }
+    100% { 
+        opacity: 0; 
+        transform: translateY(-50px); 
+    }
+}
+
+/* Add muzzle flash effect */
+.muzzle-flash {
+    position: fixed;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, #ffff00 0%, #ff6600 30%, transparent 70%);
+    border-radius: 50%;
+    z-index: 1000;
+    animation: flash 0.1s ease-out;
+    pointer-events: none;
+}
+
+@keyframes flash {
+    0% { opacity: 0.8; transform: scale(0.5); }
+    100% { opacity: 0; transform: scale(2); }
+}

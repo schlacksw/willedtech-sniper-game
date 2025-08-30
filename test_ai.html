@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Test</title>
+</head>
+<body>
+    <h1>AI Formation Test</h1>
+    <p>Open the browser console to see AI formation spawning</p>
+    <script src="ai_autonomous_v2.js"></script>
+    <script>
+        // Mock the required Three.js objects
+        window.THREE = {
+            Group: function() {
+                return {
+                    position: { x: 0, y: 0, z: 0, set: function(x, y, z) { this.x = x; this.y = y; this.z = z; } },
+                    add: function() {},
+                    children: [],
+                    userData: {}
+                };
+            },
+            CylinderGeometry: function() {},
+            MeshBasicMaterial: function() {},
+            MeshLambertMaterial: function() {},
+            Mesh: function() {
+                return {
+                    position: { y: 0 },
+                    castShadow: false,
+                    material: { color: { setHex: function() {} } }
+                };
+            },
+            SphereGeometry: function() {},
+            BoxGeometry: function() {}
+        };
+        
+        // Mock scene and camera
+        window.scene = {
+            add: function() {}
+        };
+        window.camera = {
+            position: { x: 0, y: 0, z: 0 }
+        };
+        window.targets = [];
+        
+        // Mock AI system variables
+        window.targets = [];
+        
+        // Add the variables to the AI object
+        AI.enemyGroups = [];
+        AI.targets = window.targets;
+        
+        // Test the AI spawning
+        console.log('Testing AI formation spawning...');
+        
+        // Spawn multiple formations
+        for (let i = 0; i < 5; i++) {
+            console.log(`Spawning formation ${i+1}`);
+            AI.spawnEnemyGroup();
+        }
+        
+        console.log(`Total formations spawned: ${AI.enemyGroups.length}`);
+        console.log(`Total enemies spawned: ${AI.targets.length}`);
+    </script>
+</body>
+</html>

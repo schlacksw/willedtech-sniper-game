@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flash Cards Study App</title>
+    <link rel="stylesheet" href="flashcards.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>📚 Flash Cards</h1>
+            <div class="header-controls">
+                <button id="helpBtn" class="btn btn-help" title="Show help and keyboard shortcuts">❓ Help</button>
+                <button id="newSetBtn" class="btn btn-primary" title="Create a new flashcard set">+ New Set</button>
+                <button id="manageSetsBtn" class="btn btn-secondary" title="View and manage your flashcard sets">📚 My Sets</button>
+            </div>
+        </header>
+
+        <!-- Set Selection -->
+        <div id="setSelection" class="set-selection">
+            <div class="welcome-section">
+                <h2>Welcome to Flash Cards! 🎓</h2>
+                <p class="welcome-text">Study smarter with interactive flashcards. Choose a set below to start learning, or create your own!</p>
+            </div>
+            <div id="setsList" class="sets-list">
+                <!-- Sets will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Study Mode -->
+        <div id="studyMode" class="study-mode hidden">
+            <div class="study-header">
+                <button id="backToSetsBtn" class="btn btn-back" title="Return to set selection">← Back to Sets</button>
+                <h2 id="currentSetName"></h2>
+                <div class="progress">
+                    <span id="cardCounter">1 / 10</span>
+                    <div class="progress-bar" title="Your progress through this set">
+                        <div id="progressFill" class="progress-fill"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flashcard-container">
+                <div id="flashcard" class="flashcard">
+                    <div class="flashcard-inner">
+                        <div class="flashcard-front">
+                            <div class="card-content">
+                                <p id="frontText">Click to see answer</p>
+                            </div>
+                            <div class="card-hint">👆 Click card to reveal answer</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="card-content">
+                                <p id="backText">Answer appears here</p>
+                            </div>
+                            <div class="card-hint">👆 Click card to see question again</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="study-controls">
+                <button id="prevCard" class="btn btn-nav" title="Previous card (← arrow key)">← Previous</button>
+                <button id="flipCard" class="btn btn-flip" title="Flip card (Space or Enter)">🔄 Flip Card</button>
+                <button id="nextCard" class="btn btn-nav" title="Next card (→ arrow key)">Next →</button>
+            </div>
+
+            <div class="study-actions">
+                <button id="shuffleCards" class="btn btn-action" title="Shuffle the deck for better learning">🔀 Shuffle</button>
+                <button id="editCurrentCard" class="btn btn-action" title="Edit this card">✏️ Edit Card</button>
+                <button id="addNewCard" class="btn btn-action" title="Add a new card to this set">+ Add Card</button>
+            </div>
+
+            <div class="keyboard-hint">
+                💡 <strong>Pro tip:</strong> Use <kbd>Space</kbd> to flip, <kbd>←→</kbd> arrows to navigate, <kbd>Esc</kbd> to go back
+            </div>
+        </div>
+
+        <!-- Set Management Modal -->
+        <div id="setModal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="modalTitle">Create New Set</h3>
+                    <button id="closeModal" class="btn-close">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="setName">Set Name:</label>
+                        <input type="text" id="setName" placeholder="Enter set name">
+                    </div>
+                    <div class="form-group">
+                        <label for="setDescription">Description (optional):</label>
+                        <textarea id="setDescription" placeholder="Brief description of this set"></textarea>
+                    </div>
+                    <div id="cardsEditor" class="cards-editor">
+                        <h4>Cards</h4>
+                        <div id="cardsList" class="cards-list">
+                            <!-- Cards will be added here -->
+                        </div>
+                        <button id="addCardBtn" class="btn btn-secondary" title="Add another card to this set">+ Add Card</button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="cancelBtn" class="btn btn-secondary" title="Cancel without saving">Cancel</button>
+                    <button id="saveSetBtn" class="btn btn-primary" title="Save this flashcard set">💾 Save Set</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card Edit Modal -->
+        <div id="cardModal" class="modal hidden">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Edit Card</h3>
+                    <button id="closeCardModal" class="btn-close">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="cardFront">Front (Question):</label>
+                        <textarea id="cardFront" placeholder="Enter question or term"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="cardBack">Back (Answer):</label>
+                        <textarea id="cardBack" placeholder="Enter answer or definition"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="cancelCardBtn" class="btn btn-secondary" title="Cancel without saving">Cancel</button>
+                    <button id="deleteCardBtn" class="btn btn-danger" title="Delete this card permanently">🗑️ Delete</button>
+                    <button id="saveCardBtn" class="btn btn-primary" title="Save this card">💾 Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="flashcards.js"></script>
+</body>
+</html>

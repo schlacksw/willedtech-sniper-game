@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Sniper Game</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="chat.css">
+</head>
+<body>
+    <div id="gameContainer">
+        <div id="hud">
+            <div id="score">Score: <span id="scoreValue">0</span></div>
+            <div id="ammo">Ammo: <span id="ammoValue">15</span></div>
+            <div id="magazines">Mags: <span id="magazinesValue">3</span></div>
+            <div id="health">Health: <span id="healthValue">100</span>/100</div>
+            <div id="kills">Kills: <span id="killsValue">0</span></div>
+            <div id="timer">Time: <span id="timeValue">60</span>s</div>
+        </div>
+        <div id="crosshair"></div>
+        <div id="hipCrosshair"></div>
+        <div id="gameOver" class="hidden">
+            <h2>Mission Complete!</h2>
+            <p>Final Score: <span id="finalScore">0</span></p>
+            <p>Targets Eliminated: <span id="targetsKilled">0</span></p>
+            <button id="restartBtn">New Mission</button>
+        </div>
+        <div id="loading">Loading 3D Environment...</div>
+        
+        <!-- AI Chat Interface -->
+        <div id="chatContainer">
+            <div id="chatHeader">AI COMMAND CENTER</div>
+            <div id="chatHistory"></div>
+            <div id="chatInputContainer">
+                <input type="text" id="chatInput" placeholder="Enter command for AI (e.g. spawn formation, attack player, etc.)">
+                <button id="chatSendBtn">Send</button>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="ai.js"></script>
+    <script src="tower3d.js"></script>
+</body>
+</html>

@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sniper Game - Start Screen</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            overflow: hidden;
+            font-family: 'Arial Black', Arial, sans-serif;
+            color: white;
+        }
+
+        #gameContainer {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        #startScreen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .title {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #ff4444;
+            text-shadow: 0 0 20px #ff0000, 0 0 40px #ff0000;
+            margin-bottom: 2rem;
+            text-align: center;
+            animation: pulse 2s infinite;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: #ffaa44;
+            margin-bottom: 3rem;
+            text-align: center;
+            text-shadow: 0 0 10px #ff8800;
+        }
+
+        .start-button {
+            padding: 20px 40px;
+            font-size: 2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #ff4444, #ff0000);
+            color: white;
+            border: 3px solid #ffaa44;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 0 20px rgba(255, 68, 68, 0.5);
+        }
+
+        .start-button:hover {
+            background: linear-gradient(45deg, #ff6666, #ff2222);
+            box-shadow: 0 0 30px rgba(255, 68, 68, 0.8);
+            transform: scale(1.05);
+        }
+
+        .settings-section {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #ff4444;
+            min-width: 250px;
+            z-index: 999;
+        }
+
+        .settings-title {
+            color: #ff4444;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .setting-item {
+            margin-bottom: 15px;
+        }
+
+        .setting-label {
+            color: #ffaa44;
+            font-size: 14px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .sensitivity-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sensitivity-slider {
+            flex: 1;
+            height: 8px;
+            background: #333;
+            border-radius: 4px;
+            outline: none;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+            cursor: pointer;
+        }
+
+        .sensitivity-slider:hover {
+            opacity: 1;
+        }
+
+        .sensitivity-slider::-webkit-slider-thumb {
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #ff4444;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
+        }
+
+        .sensitivity-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: #ff4444;
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
+        }
+
+        .sensitivity-value {
+            color: #ffaa44;
+            font-size: 14px;
+            min-width: 35px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .sensitivity-labels {
+            display: flex;
+            justify-content: space-between;
+            color: #aaa;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .stats {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid #ff4444;
+            font-size: 14px;
+            z-index: 999;
+        }
+
+        .stats div {
+            margin: 5px 0;
+            color: #ffaa44;
+        }
+
+        .mayhem-indicator {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 68, 68, 0.9);
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: bold;
+            animation: blink 1.5s infinite;
+            z-index: 999;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        #loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5rem;
+            color: #ffaa44;
+            z-index: 998;
+        }
+    </style>
+</head>
+<body>
+    <div id="gameContainer">
+        <!-- Background 3D scene will be rendered here -->
+        <div id="loading">Loading AI Mayhem...</div>
+        
+        <div id="startScreen">
+            <h1 class="title">SNIPER</h1>
+            <p class="subtitle">Elite Marksman Training</p>
+            <button class="start-button" onclick="startGame()">START MISSION</button>
+        </div>
+
+        <div class="settings-section">
+            <div class="settings-title">⚙️ SETTINGS</div>
+            <div class="setting-item">
+                <label class="setting-label">Mouse Sensitivity</label>
+                <div class="sensitivity-container">
+                    <input type="range" id="sensitivitySlider" class="sensitivity-slider" min="0.5" max="3.0" step="0.1" value="1.0">
+                    <span id="sensitivityValue" class="sensitivity-value">1.0</span>
+                </div>
+                <div class="sensitivity-labels">
+                    <span>Low</span>
+                    <span>High</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats">
+            <div>AI Units: <span id="aiCount">0</span></div>
+            <div>Active Formations: <span id="formationCount">0</span></div>
+            <div>Shots Fired: <span id="shotCount">0</span></div>
+            <div>Casualties: <span id="casualtyCount">0</span></div>
+        </div>
+
+        <div class="mayhem-indicator">
+            🔥 AI WARFARE IN PROGRESS 🔥
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="ai_autonomous.js"></script>
+    <script>
+        // Global variables for the start screen
+        let scene, camera, renderer;
+        let gameStarted = false;
+        let aiStats = {
+            unitCount: 0,
+            formationCount: 0,
+            shotCount: 0,
+            casualtyCount: 0
+        };
+
+        // Initialize the start screen with bird's eye view
+        function initStartScreen() {
+            // Create scene
+            scene = new THREE.Scene();
+            scene.fog = new THREE.Fog(0x001122, 50, 200);
+
+            // Bird's eye view camera (top-down)
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.set(0, 80, 0); // High above the battlefield
+            camera.lookAt(0, 0, 0);
+
+            // Create renderer
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setClearColor(0x001122);
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            document.getElementById('gameContainer').appendChild(renderer.domElement);
+
+            // Add lighting
+            const ambientLight = new THREE.AmbientLight(0x404040, 0.3);
+            scene.add(ambientLight);
+
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(50, 100, 50);
+            directionalLight.castShadow = true;
+            directionalLight.shadow.mapSize.width = 2048;
+            directionalLight.shadow.mapSize.height = 2048;
+            scene.add(directionalLight);
+
+            // Create battlefield ground
+            const groundGeometry = new THREE.PlaneGeometry(300, 300);
+            const groundMaterial = new THREE.MeshLambertMaterial({ 
+                color: 0x2d4a2b,
+                transparent: true,
+                opacity: 0.8
+            });
+            const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+            ground.rotation.x = -Math.PI / 2;
+            ground.receiveShadow = true;
+            scene.add(ground);
+
+            // Add some terrain features
+            createTerrain();
+
+            // Set up global variables for AI system
+            window.scene = scene;
+            window.camera = camera;
+            window.targets = [];
+            window.simpleBullets = [];
+            
+            // Initialize AI system
+            if (window.AI) {
+                window.AI.formations = [];
+                window.AI.formationId = 0;
+                window.AI.lastSpawn = 0;
+                window.AI.formationCount = 0;
+            }
+
+            // Hide loading and start AI mayhem
+            document.getElementById('loading').style.display = 'none';
+            startAIMayhem();
+            
+            // Start the render loop
+            animate();
+        }
+
+        function createTerrain() {
+            // Add some scattered obstacles and terrain features
+            for (let i = 0; i < 20; i++) {
+                // Random rocks/barriers
+                const rockGeometry = new THREE.BoxGeometry(
+                    2 + Math.random() * 3,
+                    1 + Math.random() * 2,
+                    2 + Math.random() * 3
+                );
+                const rockMaterial = new THREE.MeshLambertMaterial({ color: 0x555555 });
+                const rock = new THREE.Mesh(rockGeometry, rockMaterial);
+                
+                rock.position.set(
+                    (Math.random() - 0.5) * 200,
+                    rock.geometry.parameters.height / 2,
+                    (Math.random() - 0.5) * 200
+                );
+                rock.castShadow = true;
+                scene.add(rock);
+            }
+
+            // Add some trees
+            for (let i = 0; i < 15; i++) {
+                const treeGroup = new THREE.Group();
+                
+                // Trunk
+                const trunkGeometry = new THREE.CylinderGeometry(0.3, 0.5, 4);
+                const trunkMaterial = new THREE.MeshLambertMaterial({ color: 0x8B4513 });
+                const trunk = new THREE.Mesh(trunkGeometry, trunkMaterial);
+                trunk.position.y = 2;
+                treeGroup.add(trunk);
+                
+                // Leaves
+                const leavesGeometry = new THREE.SphereGeometry(2.5, 8, 6);
+                const leavesMaterial = new THREE.MeshLambertMaterial({ color: 0x228B22 });
+                const leaves = new THREE.Mesh(leavesGeometry, leavesMaterial);
+                leaves.position.y = 5;
+                treeGroup.add(leaves);
+                
+                treeGroup.position.set(
+                    (Math.random() - 0.5) * 180,
+                    0,
+                    (Math.random() - 0.5) * 180
+                );
+                treeGroup.castShadow = true;
+                scene.add(treeGroup);
+            }
+        }
+
+        function startAIMayhem() {
+            // Force AI to be more aggressive and spawn faster
+            if (window.AI && window.AI.spawnFormation) {
+                // Spawn initial formations immediately
+                for (let i = 0; i < 3; i++) {
+                    setTimeout(() => {
+                        window.AI.spawnFormation();
+                        aiStats.formationCount++;
+                        updateStats();
+                    }, i * 1000);
+                }
+
+                // Continue spawning formations
+                setInterval(() => {
+                    if (window.targets.length < 20) { // Keep battlefield active
+                        window.AI.spawnFormation();
+                        aiStats.formationCount++;
+                        updateStats();
+                    }
+                }, 3000);
+            }
+
+            // Make AI hunt each other instead of player
+            setInterval(() => {
+                makeAIFightEachOther();
+            }, 100);
+        }
+
+        function makeAIFightEachOther() {
+            if (!window.targets || window.targets.length < 2) return;
+
+            window.targets.forEach(enemy => {
+                if (!enemy.userData) return;
+
+                // Find nearest enemy to fight
+                let nearestEnemy = null;
+                let nearestDistance = Infinity;
+
+                window.targets.forEach(otherEnemy => {
+                    if (otherEnemy === enemy || !otherEnemy.userData) return;
+                    
+                    const distance = enemy.position.distanceTo(otherEnemy.position);
+                    if (distance < nearestDistance && distance < 50) {
+                        nearestDistance = distance;
+                        nearestEnemy = otherEnemy;
+                    }
+                });
+
+                if (nearestEnemy) {
+                    // Make this enemy hunt the nearest enemy
+                    enemy.userData.isAlerted = true;
+                    enemy.userData.isHunting = true;
+                    enemy.userData.lastPlayerSeen = Date.now();
+                    
+                    // Set the enemy as the hunting target by overriding camera position
+                    const originalCamera = window.camera;
+                    window.camera = {
+                        position: nearestEnemy.position
+                    };
+                    
+                    // Update path to hunt this enemy
+                    if (window.AI && window.AI.updateEnemyAI) {
+                        // Let the AI system handle pathfinding to the "fake player" (other enemy)
+                    }
+                    
+                    // Restore camera
+                    window.camera = originalCamera;
+
+                    // Make enemy red when hunting
+                    if (enemy.children[0]) {
+                        enemy.children[0].material.color.setHex(0xff4444);
+                    }
+                }
+            });
+
+            // Update stats
+            aiStats.unitCount = window.targets.length;
+            aiStats.shotCount += Math.floor(Math.random() * 3); // Simulate shots
+            updateStats();
+        }
+
+        function updateStats() {
+            document.getElementById('aiCount').textContent = aiStats.unitCount;
+            document.getElementById('formationCount').textContent = aiStats.formationCount;
+            document.getElementById('shotCount').textContent = aiStats.shotCount;
+            document.getElementById('casualtyCount').textContent = aiStats.casualtyCount;
+        }
+
+        function animate() {
+            if (!gameStarted) {
+                requestAnimationFrame(animate);
+                
+                // Update AI
+                if (window.AI && window.AI.updateEnemyAI) {
+                    window.AI.updateEnemyAI();
+                }
+                
+                // Slowly rotate camera for dynamic view
+                const time = Date.now() * 0.0005;
+                camera.position.x = Math.cos(time) * 20;
+                camera.position.z = Math.sin(time) * 20;
+                camera.lookAt(0, 0, 0);
+                
+                renderer.render(scene, camera);
+            }
+        }
+
+        function startGame() {
+            gameStarted = true;
+            // Redirect to the main game
+            window.location.href = 'index.html';
+        }
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Sensitivity control functionality
+        function initSensitivityControls() {
+            const sensitivitySlider = document.getElementById('sensitivitySlider');
+            const sensitivityValue = document.getElementById('sensitivityValue');
+
+            // Load saved sensitivity from localStorage
+            const savedSensitivity = localStorage.getItem('mouseSensitivity');
+            if (savedSensitivity) {
+                sensitivitySlider.value = savedSensitivity;
+                sensitivityValue.textContent = savedSensitivity;
+            }
+
+            // Handle slider changes
+            sensitivitySlider.addEventListener('input', function() {
+                const value = parseFloat(this.value).toFixed(1);
+                sensitivityValue.textContent = value;
+                localStorage.setItem('mouseSensitivity', value);
+                console.log('Mouse sensitivity set to:', value);
+            });
+
+            // Handle mouse wheel for fine adjustment when hovering over slider
+            sensitivitySlider.addEventListener('wheel', function(e) {
+                e.preventDefault();
+                const currentValue = parseFloat(this.value);
+                const step = 0.1;
+                let newValue;
+                
+                if (e.deltaY < 0) {
+                    // Scroll up - increase sensitivity
+                    newValue = Math.min(3.0, currentValue + step);
+                } else {
+                    // Scroll down - decrease sensitivity
+                    newValue = Math.max(0.5, currentValue - step);
+                }
+                
+                this.value = newValue.toFixed(1);
+                sensitivityValue.textContent = newValue.toFixed(1);
+                localStorage.setItem('mouseSensitivity', newValue.toFixed(1));
+            });
+        }
+
+        // Initialize everything when page loads
+        window.addEventListener('load', () => {
+            initStartScreen();
+            initSensitivityControls();
+        });
+    </script>
+</body>
+</html>

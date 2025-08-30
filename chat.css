@@ -1,0 +1,74 @@
+/* AI Chat Interface */
+#chatContainer {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 300px;
+    height: 200px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid #3498db;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+}
+
+#chatHeader {
+    background: rgba(52, 152, 219, 0.9);
+    color: white;
+    padding: 10px;
+    font-weight: bold;
+    text-align: center;
+    border-radius: 8px 8px 0 0;
+}
+
+#chatHistory {
+    flex: 1;
+    padding: 10px;
+    overflow-y: auto;
+    color: white;
+    font-size: 14px;
+}
+
+#chatInputContainer {
+    display: flex;
+    padding: 10px;
+}
+
+#chatInput {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #3498db;
+    border-radius: 5px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+}
+
+#chatSendBtn {
+    margin-left: 10px;
+    padding: 8px 15px;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#chatSendBtn:hover {
+    background: #2980b9;
+}
+
+.chat-message {
+    margin-bottom: 8px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.user-message {
+    background: rgba(52, 152, 219, 0.3);
+    text-align: right;
+}
+
+.ai-message {
+    background: rgba(231, 76, 60, 0.3);
+}
